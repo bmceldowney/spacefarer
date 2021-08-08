@@ -10,11 +10,13 @@ public class EnemySpawner : MonoBehaviour
     float _spawnInterval = 1;
     WaitForSeconds _longWait = new WaitForSeconds(5);
     WaitForSeconds _shortWait = new WaitForSeconds(0.25f);
+    Camera _camera;
 
     void Start()
     {
-        _spawner = new Spawner<Enemy>(_enemyPrefab.GameObject, transform, 20);
+        _spawner = new Spawner<Enemy>(_enemyPrefab.GameObject, transform, 20, true);
         StartCoroutine(SpawnEnemies());
+        _camera = Camera.main;
     }
 
     IEnumerator SpawnEnemies()
@@ -32,7 +34,10 @@ public class EnemySpawner : MonoBehaviour
         int enemiesSpawned = 0;
         while(enemiesSpawned < enemyCount)
         {
-            _spawner.Spawn(item => item.gameObject.transform.Translate(Random.Range(-8, 8), 0f, 0f));
+            Vector3 spawnLocation = _camera.ViewportToWorldPoint(new Vector3(Random.Range(0.1f, 0.9f), 1.1f, -_camera.transform.position.z));
+
+            Debug.Log(spawnLocation);
+            _spawner.Spawn(item => item.gameObject.transform.Translate(spawnLocation, Space.World));
             enemiesSpawned++;
             yield return _shortWait;
         }
