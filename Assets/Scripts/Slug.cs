@@ -11,12 +11,20 @@ public class Slug : MonoBehaviour, ISpawnable
 
     public Action<GameObject> Despawn { get; set; }
 
+    Camera _camera;
+
+    void Start()
+    {
+        _camera = Camera.main;
+    }
+
     // Update is called once per frame
     void Update()
     {
         transform.Translate(0f, _speed * Time.deltaTime, 0f);
 
-        if (transform.position.y > 6)
+        Vector3 viewportLocation = _camera.WorldToViewportPoint(transform.position);
+        if (viewportLocation.y > 1)
         {
             Despawn(gameObject);
         }

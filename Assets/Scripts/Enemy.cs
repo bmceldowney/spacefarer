@@ -11,11 +11,20 @@ public class Enemy : MonoBehaviour, ISpawnable
 
     public Action<GameObject> Despawn { get; set; }
 
+    Camera _camera;
+
+    void Start()
+    {
+        _camera = Camera.main;
+    }
+
     void Update()
     {
         transform.Translate(0f, -Time.deltaTime * _speed, 0f);
 
-        if (transform.position.y < -5)
+        Vector3 viewportPoint = _camera.WorldToViewportPoint(transform.position);
+
+        if (viewportPoint.y < 0)
         {
             Despawn(gameObject);
         }

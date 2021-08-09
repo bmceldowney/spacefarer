@@ -15,8 +15,8 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         _spawner = new Spawner<Enemy>(_enemyPrefab.GameObject, transform, 20, true);
-        StartCoroutine(SpawnEnemies());
         _camera = Camera.main;
+        StartCoroutine(SpawnEnemies());
     }
 
     IEnumerator SpawnEnemies()
@@ -36,7 +36,6 @@ public class EnemySpawner : MonoBehaviour
         {
             Vector3 spawnLocation = _camera.ViewportToWorldPoint(new Vector3(Random.Range(0.1f, 0.9f), 1.1f, -_camera.transform.position.z));
 
-            Debug.Log(spawnLocation);
             _spawner.Spawn(item => item.gameObject.transform.Translate(spawnLocation, Space.World));
             enemiesSpawned++;
             yield return _shortWait;
