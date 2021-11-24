@@ -37,7 +37,6 @@ namespace Utils
 
             if (preloadCount > 0)
             {
-                Debug.Log(preloadCount);
                 for (int i = 0; i < preloadCount; i++)
                 {
                     Recycle(Instantiate().GameObject);

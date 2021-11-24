@@ -16,6 +16,19 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        TouchMove();
+    }
+
+    void TouchMove()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            var touchVector = new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane);
+            var targetPosition = Camera.main.ScreenToWorldPoint(touchVector);
+            targetPosition.z = 0;
+            transform.position = targetPosition;
+        }
     }
 
     void Move()

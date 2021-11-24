@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Utils;
@@ -11,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     WaitForSeconds _longWait = new WaitForSeconds(5);
     WaitForSeconds _shortWait = new WaitForSeconds(0.25f);
     Camera _camera;
+
+    public Action EnemyPassed { get; set; }
 
     void Start()
     {
@@ -34,11 +37,20 @@ public class EnemySpawner : MonoBehaviour
         int enemiesSpawned = 0;
         while(enemiesSpawned < enemyCount)
         {
-            Vector3 spawnLocation = _camera.ViewportToWorldPoint(new Vector3(Random.Range(0.1f, 0.9f), 1.1f, -_camera.transform.position.z));
+            Vector3 spawnLocation = _camera.ViewportToWorldPoint(new Vector3(UnityEngine.Random.Range(0.1f, 0.9f), 1.1f, -_camera.transform.position.z));
 
-            _spawner.Spawn(item => item.gameObject.transform.Translate(spawnLocation, Space.World));
+            _spawner.Spawn(item => {
+                item.DoDamage -= DoDamage;
+                item.DoDamage += DoDamage;
+                item.gameObject.transform.Translate(spawnLocation, Space.World);
+            });
+
             enemiesSpawned++;
             yield return _shortWait;
         }
+    }
+
+    void DoDamage () {
+        EnemyPassed?.Invoke();
     }
 }

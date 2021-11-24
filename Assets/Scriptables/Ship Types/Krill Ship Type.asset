@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73d704ffeaec90468435e9c27ab773d, type: 3}
+  m_Name: Krill Ship Type
+  m_EditorClassIdentifier: 
+  BaseCost: 10000
+  Manufacturer: Aquaritech
+  HardPoints:
+  - {x: 0, y: 0.6, z: 0}
+  - {x: 0.8, y: -0.25, z: 0}
+  - {x: -0.8, y: -0.25, z: 0}
+  MaxEngineSize: 200
+  Mass: 150
+  Model: {fileID: 3147878327710800971, guid: 1d06d4ff7e2491e4e9b4a1a36ec8a009, type: 3}
+  ModSlots: 1

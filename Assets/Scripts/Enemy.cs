@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour, ISpawnable
 
     public Action<GameObject> Despawn { get; set; }
 
+    public Action DoDamage { get; set; }
+
     Camera _camera;
 
     void Start()
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour, ISpawnable
 
         if (viewportPoint.y < 0)
         {
+            DoDamage?.Invoke();
             Despawn(gameObject);
         }
     }
