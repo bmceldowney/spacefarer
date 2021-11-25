@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            var touchVector = new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane);
-            var targetPosition = Camera.main.ScreenToWorldPoint(touchVector);
+            var touchVector = new Vector3(touch.position.x, touch.position.y, _camera.nearClipPlane);
+            var targetPosition = _camera.ScreenToWorldPoint(touchVector);
             targetPosition.z = 0;
             transform.position = targetPosition;
         }
