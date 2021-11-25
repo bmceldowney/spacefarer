@@ -16,9 +16,8 @@ MonoBehaviour:
   Manufacturer: Aquaritech
   HardPoints:
   - {x: 0, y: 0.6, z: 0}
-  - {x: 0.8, y: -0.25, z: 0}
-  - {x: -0.8, y: -0.25, z: 0}
+  - {x: 1, y: -0.1, z: 0}
+  - {x: -1, y: -0.1, z: 0}
   MaxEngineSize: 200
   Mass: 150
-  Model: {fileID: 3147878327710800971, guid: 1d06d4ff7e2491e4e9b4a1a36ec8a009, type: 3}
   ModSlots: 1
