@@ -9,6 +9,8 @@ public class Cannon : MonoBehaviour
     float _fireDelay = 0.3f;
     [SerializeField]
     bool _continuousFire = false;
+    [SerializeField]
+    float _yOffset = 0.3f;
     float _elapsedTime;
     Spawner<Slug> _slugPool;
 
@@ -30,7 +32,7 @@ public class Cannon : MonoBehaviour
         {
             if (_elapsedTime >= _fireDelay)
             {
-                _slugPool.Spawn();
+                _slugPool.Spawn(slug => slug.transform.localPosition += Vector3.up * _yOffset);
                 _elapsedTime = 0;
             }
         }
