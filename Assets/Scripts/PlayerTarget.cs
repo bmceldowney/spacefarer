@@ -8,6 +8,8 @@ public class PlayerTarget : MonoBehaviour
     Camera _camera;
     float _margin = 0.1f;
     Vector3 _viewportPoint;
+    [SerializeField]
+    TimeController _timeController;
 
     // Start is called before the first frame update
     void Start()
@@ -19,24 +21,39 @@ public class PlayerTarget : MonoBehaviour
     void Update()
     {
         TouchMove();
+        Move();
     }
     
     void TouchMove()
     {
         if (Input.touchCount > 0)
         {
+            _timeController.StandardTime();
             Touch touch = Input.GetTouch(0);
             var touchVector = new Vector3(touch.position.x, touch.position.y, _camera.nearClipPlane);
             var targetPosition = _camera.ScreenToWorldPoint(touchVector);
             targetPosition.z = 0;
             transform.position = targetPosition;
         }
+        else
+        {
+            _timeController.SlowTime();
+        }
     }
 
     void Move()
     {
         float hAxis = Input.GetAxisRaw("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
+        float yAxis = Input.GetAxisRaw("Vertical");
+
+        if (hAxis != 0 || yAxis != 0 || Input.GetAxisRaw("Jump") != 0)
+        {
+            _timeController.StandardTime();
+        }
+        else
+        {
+            _timeController.SlowTime();
+        }
 
         // constrain the player to the bounds of the camera viewport
         float min = _margin;
