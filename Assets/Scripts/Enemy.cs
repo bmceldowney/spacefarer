@@ -13,36 +13,36 @@ public class Enemy : MonoBehaviour, ISpawnable
     GameObject _explosionParticles;
 
     public GameObject GameObject { get { return gameObject; } }
-
     public Action<GameObject> Despawn { get; set; }
-
     public Action DoDamage { get; set; }
-
+    Vector3 _target;
     Camera _camera;
 
-    void Start()
+    public void Initialize (Vector3 spawnLocation)
     {
         _camera = Camera.main;
+        gameObject.transform.Translate(spawnLocation, Space.World);
+        _target = _camera.ViewportToWorldPoint(new Vector3(UnityEngine.Random.Range(0f, 1f), -0.1f, -_camera.transform.position.z));
     }
 
     void Update()
     {
-        transform.Translate(0f, -Time.deltaTime * _speed, 0f);
+        Vector3 direction = _target - transform.position;
+        float step = _speed * Time.deltaTime;
 
-        Vector3 viewportPoint = _camera.WorldToViewportPoint(transform.position);
+        transform.position = Vector3.MoveTowards(transform.position, _target, step);
 
-        if (viewportPoint.y < 0)
+        if (Vector3.Distance(transform.position, _target) < 0.1f)
         {
-            DoDamage?.Invoke();
-            Despawn(gameObject);
+            Unspawn();
         }
     }
 
     async void OnTriggerEnter(Collider other)
     {
-        await Explode();
         var slug = other.GetComponent<Slug>();
         slug?.Despawn(slug.gameObject);
+        await Explode();
     }
 
     async Task Explode()
@@ -50,8 +50,18 @@ public class Enemy : MonoBehaviour, ISpawnable
         _enemyBody.SetActive(false);
         _explosionParticles.SetActive(true);
         await Task.Delay(7500);
-        _enemyBody.SetActive(true);
-        _explosionParticles.SetActive(false);
+        _enemyBody?.SetActive(true);
+        _explosionParticles?.SetActive(false);
+        Unspawn();
+    }
+
+    void Unspawn()
+    {
         Despawn(gameObject);
+    }
+
+    void FixedUpdate()
+    {
+        // Debug.DrawLine(transform.position, _target, Color.red);
     }
 }

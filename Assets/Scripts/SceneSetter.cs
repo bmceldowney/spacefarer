@@ -14,9 +14,12 @@ public class SceneSetter : MonoBehaviour
         var weaponPrefab = Resources.Load<GameObject>("Weapons/Cannon"); // temp, load the real one eventually
         Instantiate<EnemySpawner>(enemySpawner, Vector3.up * 9, Quaternion.identity);
         var ship = Instantiate<Ship>(shipPrefab, PlayerContainer.transform);
-        ship.ShipType.HardPoints.ForEach(hardPoint => {
-            var weaponInstance = Instantiate<GameObject>(weaponPrefab, ship.transform);
-            weaponInstance.transform.localPosition = hardPoint;
-        });
+        // ship.ShipType.HardPoints.ForEach(hardPoint => {
+        //     var weaponInstance = Instantiate<GameObject>(weaponPrefab, ship.transform);
+        //     weaponInstance.transform.localPosition = hardPoint;
+        // });
+
+        var weaponInstance = Instantiate<GameObject>(weaponPrefab, ship.transform);
+        weaponInstance.transform.localPosition = ship.ShipType.HardPoints[0];
     }
 }

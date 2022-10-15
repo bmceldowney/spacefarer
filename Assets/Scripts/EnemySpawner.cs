@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
             _spawner.Spawn(item => {
                 item.DoDamage -= DoDamage;
                 item.DoDamage += DoDamage;
-                item.gameObject.transform.Translate(spawnLocation, Space.World);
+                item.Initialize(spawnLocation);
             });
 
             enemiesSpawned++;
