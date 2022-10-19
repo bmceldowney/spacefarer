@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4439931241932210169}
   - component: {fileID: 5874161543344970787}
   - component: {fileID: 915023338916203567}
-  - component: {fileID: 3278550521716090588}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -89,26 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3bc26ba5fc61114184d848cc98aefb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sprites: []
---- !u!95 &3278550521716090588
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336813770268533806}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 186aca59cc15b7648b4b79a94064425e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  _sprites:
+  - {fileID: 1885132294699406805, guid: c1516ef2eeae8b84aa044a3d3d08dbe0, type: 3}
+  - {fileID: -2698432937148868691, guid: c1516ef2eeae8b84aa044a3d3d08dbe0, type: 3}
 --- !u!1 &5539070662189119170
 GameObject:
   m_ObjectHideFlags: 0

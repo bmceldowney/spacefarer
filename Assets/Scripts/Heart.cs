@@ -10,6 +10,9 @@ public class Heart : MonoBehaviour
     [SerializeField]
     Sprite[] _sprites;
 
+    int _currentSpriteIndex = 0;
+    float _timeSinceChange = 0;
+    float _timeUntilChange = 4;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +22,14 @@ public class Heart : MonoBehaviour
     // Update is called once per frame
     async void Update()
     {
-        await Task.Delay(5000);
-        _image.sprite = _sprites[0];
+        _timeSinceChange += Time.unscaledDeltaTime;
+        if (_timeUntilChange < _timeSinceChange)
+        {
+            Debug.Log($"currentSpriteIndex {_currentSpriteIndex}");
+            _currentSpriteIndex = _currentSpriteIndex == 0 ? 1 : 0;
+            _image.sprite = _sprites[_currentSpriteIndex];
+            _timeSinceChange -= _timeUntilChange;
+        }
+        // Debug.Log($"unscaled time {Time.unscaledDeltaTime}");
     }
 }
