@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     WaitForSeconds _shortWait = new WaitForSeconds(0.25f);
     Camera _camera;
 
-    public Action EnemyPassed { get; set; }
+    public Action<int> Scored { get; set; }
 
     void Start()
     {
@@ -40,8 +40,8 @@ public class EnemySpawner : MonoBehaviour
             Vector3 spawnLocation = _camera.ViewportToWorldPoint(new Vector3(UnityEngine.Random.Range(0.1f, 0.9f), 1.1f, -_camera.transform.position.z));
 
             _spawner.Spawn(item => {
-                item.DoDamage -= DoDamage;
-                item.DoDamage += DoDamage;
+                item.Eliminated -= AddScore;
+                item.Eliminated += AddScore;
                 item.Initialize(spawnLocation);
             });
 
@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void DoDamage () {
-        EnemyPassed?.Invoke();
+    void AddScore (int score) {
+        Scored?.Invoke(score);
     }
 }

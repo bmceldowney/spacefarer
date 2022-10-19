@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour, ISpawnable
 
     public GameObject GameObject { get { return gameObject; } }
     public Action<GameObject> Despawn { get; set; }
-    public Action DoDamage { get; set; }
+    public Action<int> Eliminated { get; set; }
     Vector3 _target;
     Camera _camera;
     Boolean _isExploding = false;
@@ -49,6 +49,11 @@ public class Enemy : MonoBehaviour, ISpawnable
         {
             var slug = other.GetComponent<Slug>();
             slug?.Despawn(slug.gameObject);
+            if (slug != null)
+            {
+                Eliminated?.Invoke(10);
+            }
+
             await Explode();
         }
     }
