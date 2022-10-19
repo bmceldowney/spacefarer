@@ -2,11 +2,14 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour, ISpawnable
 {
     [SerializeField]
-    float _speed = 3f;
+    float _maxSpeed = 9f;
+    [SerializeField]
+    float _minSpeed = 5f;
     [SerializeField]
     GameObject _enemyBody;
     [SerializeField]
@@ -17,10 +20,12 @@ public class Enemy : MonoBehaviour, ISpawnable
     public Action DoDamage { get; set; }
     Vector3 _target;
     Camera _camera;
+    Boolean _isExploding = false;
 
     public void Initialize (Vector3 spawnLocation)
     {
         _camera = Camera.main;
+        _isExploding = false;
         gameObject.transform.Translate(spawnLocation, Space.World);
         _target = _camera.ViewportToWorldPoint(new Vector3(UnityEngine.Random.Range(0f, 1f), -0.1f, -_camera.transform.position.z));
     }
@@ -28,11 +33,11 @@ public class Enemy : MonoBehaviour, ISpawnable
     void Update()
     {
         Vector3 direction = _target - transform.position;
-        float step = _speed * Time.deltaTime;
+        float step = Random.Range(_minSpeed, _maxSpeed) * Time.deltaTime;
 
         transform.position = Vector3.MoveTowards(transform.position, _target, step);
 
-        if (Vector3.Distance(transform.position, _target) < 0.1f)
+        if (Vector3.Distance(transform.position, _target) < 0.1f && !_isExploding)
         {
             Unspawn();
         }
@@ -40,13 +45,17 @@ public class Enemy : MonoBehaviour, ISpawnable
 
     async void OnTriggerEnter(Collider other)
     {
-        var slug = other.GetComponent<Slug>();
-        slug?.Despawn(slug.gameObject);
-        await Explode();
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            var slug = other.GetComponent<Slug>();
+            slug?.Despawn(slug.gameObject);
+            await Explode();
+        }
     }
 
     async Task Explode()
     {
+        _isExploding = true;
         _enemyBody.SetActive(false);
         _explosionParticles.SetActive(true);
         await Task.Delay(7500);

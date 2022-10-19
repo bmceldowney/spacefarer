@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 668629477790741213}
   - component: {fileID: 9162347831336653989}
   - component: {fileID: 4685521473320732307}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 2389130335387785494}
   - component: {fileID: 8862067015565032982}
   - component: {fileID: 7417870076327633842}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ExplosionParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4910,7 +4910,7 @@ GameObject:
   - component: {fileID: 524944053157104776}
   - component: {fileID: 1801373852022436527}
   - component: {fileID: 8514077819302715131}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4945,7 +4945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076519f9d13494549a47765a558ff691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 8
   _enemyBody: {fileID: 2488819548529716065}
   _explosionParticles: {fileID: 7391505703386748446}
 --- !u!54 &8514077819302715131

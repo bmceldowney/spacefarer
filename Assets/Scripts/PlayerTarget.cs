@@ -1,6 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+enum ControlScheme {
+    None,
+    Mouse,
+    Touch,
+    Axis
+}
 
 public class PlayerTarget : MonoBehaviour
 {
@@ -20,40 +25,74 @@ public class PlayerTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TouchMove();
-        Move();
-    }
-    
-    void TouchMove()
-    {
-        if (Input.touchCount > 0)
-        {
-            _timeController.StandardTime();
-            Touch touch = Input.GetTouch(0);
-            var touchVector = new Vector3(touch.position.x, touch.position.y, _camera.nearClipPlane);
-            var targetPosition = _camera.ScreenToWorldPoint(touchVector);
-            targetPosition.z = 0;
-            transform.position = targetPosition;
-        }
-        else
-        {
-            _timeController.SlowTime();
+        var currentControlScheme = DetermineControlScheme();
+
+        switch (currentControlScheme) {
+            case ControlScheme.Mouse:
+                MouseMove();
+                break;
+            case ControlScheme.Touch:
+                TouchMove();
+                break;
+            case ControlScheme.Axis:
+                AxisMove();
+                break;
+            case ControlScheme.None:
+                _timeController.SlowTime();
+                break;
         }
     }
 
-    void Move()
+    ControlScheme DetermineControlScheme()
     {
+        if (Input.GetMouseButton(0)) {
+            return ControlScheme.Mouse;
+        }
+
+        if (Input.touchCount > 0) {
+            return ControlScheme.Touch;
+        }
+
         float hAxis = Input.GetAxisRaw("Horizontal");
         float yAxis = Input.GetAxisRaw("Vertical");
 
         if (hAxis != 0 || yAxis != 0 || Input.GetAxisRaw("Jump") != 0)
         {
-            _timeController.StandardTime();
+            return ControlScheme.Axis;
         }
-        else
-        {
-            _timeController.SlowTime();
-        }
+
+        return ControlScheme.None;
+    }
+    
+    void MouseMove()
+    {
+        _timeController.StandardTime();
+
+        var mousePosition = Input.mousePosition;
+        var mouseVector = new Vector3(mousePosition.x, mousePosition.y, _camera.nearClipPlane);
+        var targetPosition = _camera.ScreenToWorldPoint(mouseVector);
+        targetPosition.z =  0;
+        // var targetPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = targetPosition;
+    }
+
+    void TouchMove()
+    {
+        _timeController.StandardTime();
+
+        Touch touch = Input.GetTouch(0);
+        var touchVector = new Vector3(touch.position.x, touch.position.y, _camera.nearClipPlane);
+        var targetPosition = _camera.ScreenToWorldPoint(touchVector);
+        targetPosition.z = 0;
+        transform.position = targetPosition;
+    }
+
+    void AxisMove()
+    {
+        _timeController.StandardTime();
+
+        float hAxis = Input.GetAxisRaw("Horizontal");
+        float yAxis = Input.GetAxisRaw("Vertical");
 
         // constrain the player to the bounds of the camera viewport
         float min = _margin;
