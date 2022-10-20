@@ -8,8 +8,6 @@ public class Mothership : StatefulBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Something has collided {other}");
-        
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemies"))
         {
             DoDamage();
@@ -29,6 +27,9 @@ public class Mothership : StatefulBehaviour
 
     protected override void HandleStateChange(GameState previous, GameState current)
     {
-        // noop
+        if (current == GameState.Setup)
+        {
+            _health.Reset();
+        }
     }
 }

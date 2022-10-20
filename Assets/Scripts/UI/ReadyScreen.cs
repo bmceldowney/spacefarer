@@ -14,9 +14,15 @@ public class ReadyScreen : StatefulBehaviour
         //noop
     }
 
-    void Start()
+    void OnEnable()
     {
-        StartCoroutine(DoReady());
+        StartCoroutine("DoReady");
+    }
+
+    void OnDisable()
+    {
+        _text.text = "Get Ready";
+        StopCoroutine("DoReady");
     }
 
     IEnumerator DoReady()

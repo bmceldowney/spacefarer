@@ -27,7 +27,6 @@ public class EnemySpawner : StatefulBehaviour
         if (current == GameState.GameOver)
         {
             StopCoroutine(_spawnEnemies);
-            _spawner.Reset();
         }
 
         if (current == GameState.Setup)

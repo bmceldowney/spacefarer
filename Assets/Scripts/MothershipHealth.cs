@@ -29,4 +29,9 @@ public class MothershipHealth : MonoBehaviour, IScorable
             _hearts[i].SetValue(i < score);
         }
     }
+
+    public void Reset()
+    {
+        SetScore(_maxHealth);
+    }
 }

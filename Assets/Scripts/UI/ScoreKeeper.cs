@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreKeeper : MonoBehaviour
+public class ScoreKeeper : StatefulBehaviour
 {
     [SerializeField]
     EnemySpawner _spawner;
@@ -13,21 +13,23 @@ public class ScoreKeeper : MonoBehaviour
 
     int _currentScore = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
-        _spawner.Scored += (int score) => UpdateScore(score);
+        _spawner.Scored += (int score) => AddScore(score);
     }
 
-    void UpdateScore(int score)
+    void AddScore(int score)
     {
         _currentScore += score;
         _text.text = _currentScore.ToString("D4");
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void HandleStateChange(GameState previous, GameState current)
     {
-        
+        if (current == GameState.Setup)
+        {
+            _currentScore = 0;
+            AddScore(0);
+        }
     }
 }
