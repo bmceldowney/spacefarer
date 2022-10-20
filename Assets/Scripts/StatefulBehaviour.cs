@@ -25,11 +25,11 @@ public abstract class StatefulBehaviour : MonoBehaviour
         CurrentState = state;
     }
 
-    static StatefulBehaviour()
-    {
-        CurrentState = GameState.Initial;
-        Debug.Log("Greetings from the static constructor for the StatefulBehaviour");
-    }
+    // static StatefulBehaviour()
+    // {
+    //     CurrentState = GameState.Initial;
+    //     Debug.Log("Greetings from the static constructor for the StatefulBehaviour");
+    // }
 
     protected virtual void Awake()
     {

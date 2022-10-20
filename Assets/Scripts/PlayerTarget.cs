@@ -7,7 +7,7 @@ enum ControlScheme {
     Axis
 }
 
-public class PlayerTarget : MonoBehaviour
+public class PlayerTarget : StatefulBehaviour
 {
     float _speed = 8;
     Camera _camera;
@@ -25,6 +25,8 @@ public class PlayerTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CurrentState != GameState.Play) return;
+
         var currentControlScheme = DetermineControlScheme();
 
         switch (currentControlScheme) {
@@ -115,4 +117,8 @@ public class PlayerTarget : MonoBehaviour
         return new Vector3();
     }
 
+    protected override void HandleStateChange(GameState previous, GameState current)
+    {
+        //noop
+    }
 }
