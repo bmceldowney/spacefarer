@@ -8,6 +8,12 @@ public class Ship : StatefulBehaviour
 
     bool _fireWeapons = false;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        Weapons = new List<IFireable>();
+    }
+
     void Update()
     {
         if (_fireWeapons)

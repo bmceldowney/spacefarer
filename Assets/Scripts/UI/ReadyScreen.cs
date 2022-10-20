@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class ReadyScreen : MonoBehaviour
+public class ReadyScreen : StatefulBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    TMP_Text _text;
+    WaitForSeconds _twoSecondWait = new WaitForSeconds(2);
+
+    protected override void HandleStateChange(GameState previous, GameState current)
     {
-        
+        //noop
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        StartCoroutine(DoReady());
+    }
+
+    IEnumerator DoReady()
+    {
+        yield return _twoSecondWait;
+        _text.text = "GO";
+        yield return _twoSecondWait;
+        ChangeState(GameState.Play);
     }
 }
