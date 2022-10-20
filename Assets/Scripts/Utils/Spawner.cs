@@ -95,6 +95,14 @@ namespace Utils
             return item;
         }
 
+        public void Reset()
+        {
+            foreach (var item in this)
+            {
+                item.Despawn(item.GameObject);
+            }
+        }
+
         void Recycle(GameObject item)
         {
             item.SetActive(false);

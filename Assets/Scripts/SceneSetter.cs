@@ -1,10 +1,15 @@
 using System;
 using UnityEngine;
 
-public class SceneSetter : MonoBehaviour
+public class SceneSetter : StatefulBehaviour
 {
     [SerializeField]
     GameObject PlayerContainer;
+
+    protected override void HandleStateChange(GameState previous, GameState current)
+    {
+
+    }
 
     void Awake()
     {
@@ -13,5 +18,6 @@ public class SceneSetter : MonoBehaviour
         var ship = Instantiate<Ship>(shipPrefab, PlayerContainer.transform);
         var weaponInstance = Instantiate<GameObject>(weaponPrefab, ship.transform);
         weaponInstance.transform.localPosition = ship.ShipType.HardPoints[0];
+        StatefulBehaviour.ChangeState(GameState.Setup);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Utils;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : StatefulBehaviour
 {
     [SerializeField]
     Enemy _enemyPrefab;
@@ -12,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
     WaitForSeconds _longWait = new WaitForSeconds(5);
     WaitForSeconds _shortWait = new WaitForSeconds(0.25f);
     Camera _camera;
+    Coroutine _spawnEnemies;
 
     public Action<int> Scored { get; set; }
 
@@ -19,7 +20,25 @@ public class EnemySpawner : MonoBehaviour
     {
         _spawner = new Spawner<Enemy>(_enemyPrefab.GameObject, transform, 20, true);
         _camera = Camera.main;
-        StartCoroutine(SpawnEnemies());
+    }
+
+    protected override void HandleStateChange(GameState previous, GameState current)
+    {
+        if (current == GameState.GameOver)
+        {
+            StopCoroutine(_spawnEnemies);
+            _spawner.Reset();
+        }
+
+        if (current == GameState.Setup)
+        {
+            _spawnInterval = 1;
+        }
+
+        if (current == GameState.Play)
+        {
+            _spawnEnemies = StartCoroutine(SpawnEnemies());
+        }
     }
 
     IEnumerator SpawnEnemies()
