@@ -4945,7 +4945,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076519f9d13494549a47765a558ff691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
+  _maxSpeed: 6
+  _minSpeed: 2
+  _currentSpeed: 0
   _enemyBody: {fileID: 2488819548529716065}
   _explosionParticles: {fileID: 7391505703386748446}
 --- !u!54 &8514077819302715131
