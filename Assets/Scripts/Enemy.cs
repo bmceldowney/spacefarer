@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour, ISpawnable
     [SerializeField]
     float _currentSpeed;
     [SerializeField]
+    float _rotationSpeed;
+    [SerializeField]
     GameObject _enemyBody;
     [SerializeField]
     GameObject _explosionParticles;
@@ -23,7 +25,7 @@ public class Enemy : MonoBehaviour, ISpawnable
     Vector3 _target;
     Camera _camera;
     Boolean _isExploding = false;
-    
+    Quaternion _currentRotation;
 
     public void Initialize (Vector3 spawnLocation)
     {
@@ -32,6 +34,8 @@ public class Enemy : MonoBehaviour, ISpawnable
         gameObject.transform.Translate(spawnLocation, Space.World);
         _target = _camera.ViewportToWorldPoint(new Vector3(UnityEngine.Random.Range(0f, 1f), -0.1f, -_camera.transform.position.z));
         _currentSpeed = Random.Range(_minSpeed, _maxSpeed);
+        float rotationStep = _rotationSpeed * Time.deltaTime;
+        _currentRotation = Random.rotation;
     }
 
     void Update()
@@ -40,6 +44,7 @@ public class Enemy : MonoBehaviour, ISpawnable
         float step = _currentSpeed * Time.deltaTime;
 
         transform.position = Vector3.MoveTowards(transform.position, _target, step);
+        transform.rotation = transform.rotation * _currentRotation;
 
         if (Vector3.Distance(transform.position, _target) < 0.1f && !_isExploding)
         {
