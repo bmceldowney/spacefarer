@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour, ISpawnable
     Vector3 _target;
     Camera _camera;
     Boolean _isExploding = false;
-    Quaternion _currentRotation;
+    Vector3 _currentRotation;
 
     public void Initialize (Vector3 spawnLocation)
     {
@@ -35,7 +35,8 @@ public class Enemy : MonoBehaviour, ISpawnable
         _target = _camera.ViewportToWorldPoint(new Vector3(UnityEngine.Random.Range(0f, 1f), -0.1f, -_camera.transform.position.z));
         _currentSpeed = Random.Range(_minSpeed, _maxSpeed);
         float rotationStep = _rotationSpeed * Time.deltaTime;
-        _currentRotation = Random.rotation;
+        _currentRotation = Random.rotation.eulerAngles.normalized;
+        Debug.Log($"The rotation is {_currentRotation}");
     }
 
     void Update()
@@ -44,7 +45,7 @@ public class Enemy : MonoBehaviour, ISpawnable
         float step = _currentSpeed * Time.deltaTime;
 
         transform.position = Vector3.MoveTowards(transform.position, _target, step);
-        transform.rotation = transform.rotation * _currentRotation;
+        transform.eulerAngles += _currentRotation * Time.deltaTime * _rotationSpeed;
 
         if (Vector3.Distance(transform.position, _target) < 0.1f && !_isExploding)
         {
